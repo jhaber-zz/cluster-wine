@@ -7,6 +7,15 @@ This codebase clustering methods to find combinations of features that distingui
 Rather than using machine learning or regression to identify which *individual* properties matter most, here I use clustering methods to analyze what *groups* of properties are most significant. In particular, I use visualization (t-SNE) and hierarchical clustering to determine most likely cluster counts, compute the clusters using *k*-means clustering, and compare their standardized attributes to find what properties "hang together" in distinct ways between clusters.
 
 
+## Visual storytelling
+
+![Clustering on full wine dataset](output/scatter_full.png)
+
+![Clustering on red wines](output/scatter_red.png)
+
+![Clustering on white wines](output/scatter_white.png)
+
+
 ## Summary of findings
 
 * Clustering appears successful in capturing differences between wine types (red and white) and combinations of features within wine types connected with perceptions of quality
@@ -15,17 +24,13 @@ Rather than using machine learning or regression to identify which *individual* 
 * These findings reinforce some of the key features from Cortez et al. (2009)--e.g., sulphates for red wines and alcohol for white--while sidelining others--e.g., sulfur dioxide for red wines and sulphates for white. However, the main contribution here is about _groups_ of features, not individual features
 
 
-## Example visualization
-
-TBD
-
-
 ## Next steps
 
 ### Improving the codebase
 
 * Convert repetitive analysis code into functions for reproducibility
-* Look for outliers and consider how these might shape the results
+* Visualize correlations
+* Investigate how outliers might shape the results
 * Use cross-validation to get more robust sense for how important these clusters are in their impacts on perceived quality
 
 ### To learn about wines
