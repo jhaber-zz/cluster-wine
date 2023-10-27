@@ -7,6 +7,12 @@ This codebase clustering methods to find combinations of features that distingui
 Rather than using machine learning or regression to identify which *individual* properties matter most, here I use clustering methods to analyze what *groups* of properties are most significant. In particular, I use visualization (t-SNE) and hierarchical clustering to determine most likely cluster counts, compute the clusters using *k*-means clustering, and compare their standardized attributes to find what properties "hang together" in distinct ways between clusters.
 
 
+## Guide to codebase
+
+*  Detailed findings and most of the code: [code/clustering.ipynb](code/clustering.ipynb)
+*  Convenience functions, especially hierarchical clustering: [code/utils.py](code/utils.py)
+
+
 ## Summary of findings
 
 * Clustering appears successful in capturing differences between wine types (red and white) and combinations of features within wine types connected with perceptions of quality
@@ -26,6 +32,7 @@ TBD
 
 * Convert repetitive analysis code into functions for reproducibility
 * Look for outliers and consider how these might shape the results
+* Compare the cluster results of hierarchical clustering and K-means clustering, e.g. by visualizing clusters and by silhouette scores
 * Use cross-validation to get more robust sense for how important these clusters are in their impacts on perceived quality
 
 ### To learn about wines
