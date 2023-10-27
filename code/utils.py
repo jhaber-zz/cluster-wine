@@ -16,7 +16,10 @@
 # Import packages
 import requests
 import shutil
-from os.path import join
+from os.path import join, isfile, isdir
+import matplotlib.pyplot as plt
+import numpy as np
+import joblib
 from sklearn.cluster import AgglomerativeClustering, KMeans
 from scipy.cluster.hierarchy import dendrogram, linkage
 
@@ -51,6 +54,9 @@ def get_unzip(URL, fpath):
     return
 
 
+models_dir = '../models/'
+output_dir = '../output/'
+
 def plot_dendrogram(model, 
                     linkage='average',
                     figsize=(20,10), 
@@ -58,6 +64,7 @@ def plot_dendrogram(model,
                     yrange=None, 
                     xrange=None,
                     title="Dendrogram", 
+                    orientation='right',
                     save_plot=None, 
                     leaf_font_size=12,
                     **kwargs):
@@ -130,8 +137,6 @@ def plot_dendrogram(model,
         filepath = join(output_dir, str(save_plot) + ".png")
         plt.savefig(filepath, bbox_inches='tight', dpi = 300)
     plt.show()
-    
-    return model
 
 
 def cluster_and_visualize(X, 
@@ -143,7 +148,7 @@ def cluster_and_visualize(X,
                           xrange=None,
                           title=None,
                           save_plot=None,
-                          orientation='top',
+                          orientation='right',
                           leaf_rotation=90,
                           leaf_font_size=12,
                           levels=5,
@@ -200,6 +205,8 @@ def cluster_and_visualize(X,
                     leaf_font_size=leaf_font_size, 
                     orientation=orientation)
                     #color_threshold=0.7)
+    
+    return clustering
         
         
 def make_dendrogram(X,
@@ -210,7 +217,7 @@ def make_dendrogram(X,
                     n_clusters=4,
                     distance_threshold=None,
                     levels=5,
-                    orientation='top',
+                    orientation='right',
                     save_plot=None):
     
     '''Derives parameters to create hierarchical clustering model and dendrograms and passes 
@@ -225,6 +232,9 @@ def make_dendrogram(X,
         See documentation for info on other parameters:
             AgglomerativeClustering: https://scikit-learn.org/stable/modules/generated/sklearn.cluster.AgglomerativeClustering.html
             dendrogram: https://docs.scipy.org/doc/scipy/reference/generated/scipy.cluster.hierarchy.dendrogram.html
+            
+    Returns: 
+        model (obj): AgglomerativeClustering() model via scikit-learn saved to disk
     '''
     
     n_clusters_text = '' if not n_clusters else ('_'+str(n_clusters))
@@ -252,18 +262,20 @@ def make_dendrogram(X,
         orientation='top'
         
     # execute clustering and dendrogram function
-    cluster_and_visualize(X, 
-                          y, 
-                          title=None,
-                          linkage=linkage, 
-                          metric=metric,
-                          xrange=xrange,
-                          yrange=yrange,
-                          figsize=figsize, 
-                          leaf_rotation=leaf_rotation,
-                          leaf_font_size=leaf_font_size,
-                          orientation=orientation,
-                          n_clusters=n_clusters,
-                          distance_threshold=distance_threshold,
-                          levels=levels,
-                          save_plot=save_plot)
+    model = cluster_and_visualize(X, 
+                                  y, 
+                                  title=None,
+                                  linkage=linkage, 
+                                  metric=metric,
+                                  xrange=xrange,
+                                  yrange=yrange,
+                                  figsize=figsize, 
+                                  leaf_rotation=leaf_rotation,
+                                  leaf_font_size=leaf_font_size,
+                                  orientation=orientation,
+                                  n_clusters=n_clusters,
+                                  distance_threshold=distance_threshold,
+                                  levels=levels,
+                                  save_plot=save_plot)
+    
+    return model
